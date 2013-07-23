@@ -1,3 +1,8 @@
 <h2>Todos</h2>
 
 <%= render @todos %>
+
+<form action="/todos" method="get">
+  Search: <input type="text" name="task" autofocus>
+  <button>Go</button>
+</form>

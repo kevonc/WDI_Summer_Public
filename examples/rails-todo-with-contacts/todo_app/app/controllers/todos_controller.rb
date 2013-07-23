@@ -1,7 +1,37 @@
 class TodosController < ApplicationController
 
+  # GET
+  # /todos/search
+  # todos_search_path
+  # def search
+  #   @todos = Todo.where(task: params[:task]) # Search exact same match
+  #   render "index"
+  # end
+
+  # /todos/:id/add_contact
+  # add_todo_contact_path for linking
+  def add_contact
+    todo = Todo.find(params[:id])
+    contact = Contact.find(params[:contact_id])
+    todo.contacts << contact # operating on the relations
+
+    redirect_to todo
+  end
+
+  def remove_contact
+    todo = Todo.find(params[:id])
+    contact = Contact.find(params[:contact_id])
+    todo.contacts.destroy(contact) # operating on the relations
+
+    redirect_to todo
+  end
+
   def index
-    @todos = Todo.all
+    if params[:task]
+      @todos = Todo.where(task: params[:task]) # search method is no longer needed
+    else
+      @todos = Todo.all
+    end
   end
 
   def new
@@ -21,6 +51,8 @@ class TodosController < ApplicationController
 
   def show
     @todo = Todo.find(params[:id])
+    all_contacts = Contact.all
+    @available_contacts = all_contacts - @todo.contacts
   end
 
   def edit

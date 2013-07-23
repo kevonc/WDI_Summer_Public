@@ -4,11 +4,19 @@
 <p>Due Date: <%= @todo.due_date %></p>
 <p>Completed: <%= @todo.completed %></p>
 
-<p>Contacts:<br/> 
+<p>Contacts:</p>
+  <% @todo.contacts.each do |contact| %>
+    <%= render partial: contact %>
+    <%= button_to "Remove Contact",
+        remove_todo_contact_path(contact_id: contact.id) %>
+  <% end %>
 
-  <%= render partial: 'contacts/contact',
-  collection: @todo.contacts %>
-</p>
+<p>Not on this task:</p>
+  <% @available_contacts.each do |contact| %>
+    <%= render partial: contact %>
+    <%= button_to "Assign Contact",
+        add_todo_contact_path(contact_id: contact.id) %>
+  <% end %>
 
 
 <a href="/todos/<%= @todo.id %>/edit">Edit Task</a>
