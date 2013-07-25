@@ -1,18 +1,19 @@
 function handleStudents(){
   var i = 0;  // scope: local variable, type: number
-  var students = ['Jim', 'Bob', 'Tracy', 'Justin', 'Emily'];  // s: local, t:???
-  return function(){  // from SO: the inner function has access to the 
-    // environment it was created within 
+  var students = ['Jim', 'Bob', 'Tracy', 'Justin', 'Emily'];  // s: local, t: array(object!)
+  return function(){  // from SO: the inner function has access to the
+    // environment it was created within
     // even after the code that created the environment has returned.
-    var student =  students[i]; // s: ???, t: string
-    i+=1; 
-    return student;// What type is this returning? 
+    var student =  students[i]; // s: local variable, t: string
+    i+=1;
+    return student;// What type is this returning?  string
   };
 }
 
 // What type of variable is nextStudent?
-// t: ???
-var nextStudent = handleStudents(); 
+// t: function
+var nextStudent = handleStudents();
+var nextStudentAgain = handleStudents();
 
 // onload
 window.onload = function(){
@@ -26,6 +27,10 @@ window.onload = function(){
   };
 
   document.getElementById("resetClosure").onclick = function(){
-    nextStudent = handleStudents(); 
+    nextStudent = handleStudents();
   };
+
+  document.getElementById("addStudentAgain").onclick = function() {
+    document.getElementById("students").innerHTML += nextStudentAgain() + '<br/>\n';
+  }
 };
